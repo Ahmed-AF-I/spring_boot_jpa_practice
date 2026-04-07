@@ -12,6 +12,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @Deprecated
+ */
+@Deprecated
 @Repository
 @RequiredArgsConstructor
 public class EmployeeSearchDao {
