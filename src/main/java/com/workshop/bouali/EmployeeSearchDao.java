@@ -13,7 +13,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * @Deprecated
+ * @deprecated This class is no longer in use.
+ * The application has been refactored to follow MVC architecture.
+ * Data access is now handled via Repository layer,
+ * and data transfer is managed using DTOs.
+ *
+ * Use EmployeeRepository, EmployeeService, and EmployeeResponseDTO instead.
  */
 @Deprecated
 @Repository
