@@ -18,6 +18,14 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
+    /**
+     *
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @Deprecate replaced with find
+     */
+    @Deprecated
     @GetMapping("/search")
     public ResponseEntity<List<EmployeeResponseDTO>> search(
             @RequestParam(required = false) String firstName,
@@ -26,6 +34,17 @@ public class EmployeeController {
     ) {
         return ResponseEntity.ok(
                 employeeService.searchEmployees(firstName, lastName, email)
+        );
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<List<EmployeeResponseDTO>> find(
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(required = false) String email
+    ){
+        return ResponseEntity.ok(
+                employeeService.searchEmployeesSpecification(firstName, lastName, email)
         );
     }
 }

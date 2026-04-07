@@ -8,7 +8,11 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ *@Deprecated replaced with EmployeeSpecifications
+ */
 
+@Deprecated
 @RequiredArgsConstructor
 public class EmployeeRepositoryImpl implements EmployeeRepositoryCustom {
 
