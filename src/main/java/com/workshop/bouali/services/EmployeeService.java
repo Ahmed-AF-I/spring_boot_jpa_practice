@@ -1,7 +1,7 @@
 package com.workshop.bouali.services;
 
-import com.workshop.bouali.dto.EmployeeMapper;
-import com.workshop.bouali.dto.EmployeeResponseDTO;
+import com.workshop.bouali.dto.employeedto.EmployeeMapper;
+import com.workshop.bouali.dto.employeedto.EmployeeResponseDTO;
 import com.workshop.bouali.models.Employee;
 import com.workshop.bouali.repositories.employeerepo.EmployeeRepository;
 import com.workshop.bouali.specification.EmployeeSpecifications;
@@ -42,7 +42,7 @@ public class EmployeeService {
                 .and(EmployeeSpecifications.hasLastName(lastName))
                 .and(EmployeeSpecifications.hasEmail(email));
 
-        // get the date Compatible with Specification defined above
+        // get the data Compatible with Specification defined above
         List<Employee> employees = employeeRepository.findAll(spec);
         return employees.stream()
                 .map(EmployeeMapper::toResponceDTO)
