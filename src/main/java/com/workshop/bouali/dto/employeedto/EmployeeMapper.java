@@ -1,4 +1,4 @@
-package com.workshop.bouali.dto;
+package com.workshop.bouali.dto.employeedto;
 
 import com.workshop.bouali.models.Employee;
 
