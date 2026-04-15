@@ -1,13 +1,12 @@
 package com.workshop.bouali.controller;
 
+import com.workshop.bouali.dto.employeedto.EmployeeRequestDTO;
 import com.workshop.bouali.dto.employeedto.EmployeeResponseDTO;
 import com.workshop.bouali.services.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,6 +16,35 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+
+    @PostMapping
+    public ResponseEntity<EmployeeResponseDTO> create(@RequestBody EmployeeRequestDTO request) {
+        return new ResponseEntity<>(employeeService.createEmployee(request), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeResponseDTO> update(
+            @PathVariable Integer id,
+            @RequestBody EmployeeRequestDTO request
+    ) {
+        return ResponseEntity.ok(employeeService.updateEmployee(id, request));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<EmployeeResponseDTO>> findAll() {
+        return ResponseEntity.ok(employeeService.findAllEmployees());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeResponseDTO> findById(@PathVariable Integer id) {
+        return ResponseEntity.ok(employeeService.findById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        employeeService.deleteEmployee(id);
+        return ResponseEntity.noContent().build();
+    }
 
     /**
      *
