@@ -7,5 +7,10 @@ public record EmployeeResponseDTO(
         Integer id,
         String firstName,
         String lastName,
-        String email
+        String fullName,
+        String email,
+        String identifier,
+        String role,
+        String departmentName,
+        String fullAddress
 ) {}

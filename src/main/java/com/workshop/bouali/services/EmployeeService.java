@@ -1,10 +1,14 @@
 package com.workshop.bouali.services;
 
 import com.workshop.bouali.dto.employeedto.EmployeeMapper;
+import com.workshop.bouali.dto.employeedto.EmployeeRequestDTO;
 import com.workshop.bouali.dto.employeedto.EmployeeResponseDTO;
 import com.workshop.bouali.models.Employee;
+import com.workshop.bouali.repositories.DepartmentRepository;
+import com.workshop.bouali.repositories.addressrepo.AddressRepository;
 import com.workshop.bouali.repositories.employeerepo.EmployeeRepository;
 import com.workshop.bouali.specification.EmployeeSpecifications;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -16,6 +20,8 @@ import java.util.List;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final DepartmentRepository departmentRepository;
+    private final AddressRepository addressRepository;
 
     public List<EmployeeResponseDTO> searchEmployees(
             String firstName,
@@ -28,7 +34,7 @@ public class EmployeeService {
         return employeeRepository
                 .findBySimpleQuery(firstName, lastName, email)
                 .stream()
-                .map(EmployeeMapper::toResponceDTO)
+                .map(EmployeeMapper::toResponse)
                 .toList();
     }
 
@@ -45,7 +51,67 @@ public class EmployeeService {
         // get the data Compatible with Specification defined above
         List<Employee> employees = employeeRepository.findAll(spec);
         return employees.stream()
-                .map(EmployeeMapper::toResponceDTO)
+                .map(EmployeeMapper::toResponse)
                 .toList();
     }
+
+
+    public EmployeeResponseDTO createEmployee(
+            EmployeeRequestDTO request
+    ){
+        Employee employee = EmployeeMapper.toEntity(request);
+        assignedRelations(employee, request);
+        Employee savedEmployee = employeeRepository.save(employee);
+        return EmployeeMapper.toResponse(savedEmployee);
+    }
+
+    public EmployeeResponseDTO updateEmployee(
+            Integer id,
+            EmployeeRequestDTO request
+    ){
+        Employee existingEmployee = employeeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Employee not founded with id: " + id));
+
+        existingEmployee.setFirstName(request.firstName());
+        existingEmployee.setLastName(request.lastName());
+        existingEmployee.setEmail(request.email());
+        existingEmployee.setRole(request.role());
+        existingEmployee.setBirthDate(request.birthDate());
+
+        assignedRelations(existingEmployee, request);
+
+        Employee updated = employeeRepository.save(existingEmployee);
+        return EmployeeMapper.toResponse(updated);
+    }
+
+    public List<EmployeeResponseDTO> findAllEmployees(){
+        return employeeRepository.findAll().stream()
+                .map(EmployeeMapper::toResponse)
+                .toList();
+    }
+
+    public EmployeeResponseDTO findById(Integer id) {
+        return employeeRepository.findById(id)
+                .map(EmployeeMapper::toResponse)
+                .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
+    }
+
+    public void deleteEmployee(Integer id) {
+        if (!employeeRepository.existsById(id)) {
+            throw new EntityNotFoundException("Employee not found");
+        }
+        employeeRepository.deleteById(id);
+    }
+
+    private void assignedRelations(Employee employee, EmployeeRequestDTO request){
+        if(request.departmentId() != null) {
+            var department = departmentRepository.findById(request.departmentId()).orElse(null);
+            employee.setDepartment(department);
+        }
+        if(request.addressId() != null) {
+            var address = addressRepository.findById(request.addressId()).orElse(null);
+            employee.setAddress(address);
+        }
+    }
+
 }
