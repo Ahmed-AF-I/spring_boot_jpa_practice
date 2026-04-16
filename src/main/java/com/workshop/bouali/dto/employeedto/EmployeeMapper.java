@@ -1,7 +1,11 @@
 package com.workshop.bouali.dto.employeedto;
 
+import com.workshop.bouali.dto.mission.MissionSummaryDTO;
 import com.workshop.bouali.models.Address;
 import com.workshop.bouali.models.Employee;
+import com.workshop.bouali.models.Mission;
+
+import java.util.List;
 
 public class EmployeeMapper {
 
@@ -24,8 +28,13 @@ public class EmployeeMapper {
                 .email(employee.getEmail())
                 .identifier(employee.getIdentifier())
                 .role(employee.getRole().name())
-                .departmentName(employee.getDepartment() != null ? employee.getDepartment().getName() : null)
+                .departmentName(employee.getDepartment() != null
+                        ? employee.getDepartment().getName() : null)
                 .fullAddress(formatAddress(employee.getAddress()))
+                .missions(employee.getMissions() != null
+                        ? employee.getMissions().stream()
+                        .map(EmployeeMapper::toMissionSummary)
+                        .toList() : List.of())
                 .build();
     }
 
@@ -43,6 +52,14 @@ public class EmployeeMapper {
         employee.setRole(request.role());
 
         return employee;
+    }
+
+    private static MissionSummaryDTO toMissionSummary(Mission mission) {
+        return MissionSummaryDTO.builder()
+                .id(mission.getId())
+                .name(mission.getName())
+                .duration(mission.getDuration())
+                .build();
     }
 
     private static String formatAddress(Address address){

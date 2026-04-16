@@ -46,6 +46,24 @@ public class EmployeeController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/{employeeId}/missions/{missionId}")
+    public ResponseEntity<Void> addMission(
+            @PathVariable Integer employeeId,
+            @PathVariable Long missionId
+    ) {
+        employeeService.addMissionToEmployee(employeeId, missionId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{employeeId}/missions/{missionId}")
+    public ResponseEntity<Void> removeMission(
+            @PathVariable Integer employeeId,
+            @PathVariable Long missionId
+    ) {
+        employeeService.removeMissionFromEmployee(employeeId, missionId);
+        return ResponseEntity.noContent().build();
+    }
+
     /**
      *
      * @param firstName
