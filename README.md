@@ -183,3 +183,10 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 👨‍💻 Author
 
 Built with ❤️ as a learning project for mastering JPA relationships and Spring Boot best practices.
+
+---
+
+## 💬 Let's Connect
+This project is part of my learning journey. If you want to discuss the code, suggest improvements, or just chat about tech trends, you are more than welcome to join our Slack!
+
+* [**Join our Slack Workspace**](YOUR_INVITE_LINK)
