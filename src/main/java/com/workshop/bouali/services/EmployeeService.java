@@ -28,6 +28,7 @@ public class EmployeeService {
     private final AddressRepository addressRepository;
     private final MissionRepository missionRepository;
 
+    @Transactional(readOnly = true)
     public List<EmployeeResponseDTO> searchEmployees(
             String firstName,
             String lastName,
@@ -43,6 +44,7 @@ public class EmployeeService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<EmployeeResponseDTO> searchEmployeesSpecification(
             String firstName,
             String lastName,
@@ -91,12 +93,14 @@ public class EmployeeService {
         return EmployeeMapper.toResponse(updated);
     }
 
+    @Transactional(readOnly = true)
     public List<EmployeeResponseDTO> findAllEmployees(){
         return employeeRepository.findAll().stream()
                 .map(EmployeeMapper::toResponse)
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public EmployeeResponseDTO findById(Integer id) {
         return employeeRepository.findById(id)
                 .map(EmployeeMapper::toResponse)
