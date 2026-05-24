@@ -76,4 +76,10 @@ public class AddressService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Address with id " + id + " not found"));
     }
+
+    public List<AddressResponseDTO> getAllAddresses(){
+        return addressRepository.findAll().stream()
+                .map(AddressMapper::toDTO)
+                .toList();
+    }
 }

@@ -5,12 +5,11 @@ import com.workshop.bouali.dto.addressdto.AddressResponseDTO;
 import com.workshop.bouali.services.AddressService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/address")
@@ -39,6 +38,11 @@ public class AddressController {
         return ResponseEntity.ok(
                 addressService.searchAddresses(street, houseNumber, zipCode)
         );
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AddressResponseDTO>> findAll(){
+        return ResponseEntity.ok(addressService.getAllAddresses());
     }
 
     @PutMapping("/{id}")
