@@ -54,10 +54,11 @@ public class AddressController {
                 addressService.updateAddress(id, request));
     }
 
+    @PostMapping
     public ResponseEntity<AddressResponseDTO> create(
             @Valid @RequestBody AddressRequestDTO request
     ){
-        return new ResponseEntity<>(addressService.createAddress(request), HttpStatus.OK);
+        return new ResponseEntity<>(addressService.createAddress(request), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

@@ -3,6 +3,7 @@ package com.workshop.bouali.controller;
 import com.workshop.bouali.dto.employeedto.EmployeeRequestDTO;
 import com.workshop.bouali.dto.employeedto.EmployeeResponseDTO;
 import com.workshop.bouali.services.EmployeeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +19,16 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping
-    public ResponseEntity<EmployeeResponseDTO> create(@RequestBody EmployeeRequestDTO request) {
+    public ResponseEntity<EmployeeResponseDTO> create(
+            @Valid @RequestBody EmployeeRequestDTO request
+    ) {
         return new ResponseEntity<>(employeeService.createEmployee(request), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<EmployeeResponseDTO> update(
             @PathVariable Integer id,
-            @RequestBody EmployeeRequestDTO request
+            @Valid @RequestBody EmployeeRequestDTO request
     ) {
         return ResponseEntity.ok(employeeService.updateEmployee(id, request));
     }
@@ -52,7 +55,7 @@ public class EmployeeController {
             @PathVariable Long missionId
     ) {
         employeeService.addMissionToEmployee(employeeId, missionId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{employeeId}/missions/{missionId}")
@@ -65,11 +68,7 @@ public class EmployeeController {
     }
 
     /**
-     *
-     * @param firstName
-     * @param lastName
-     * @param email
-     * @Deprecate replaced with find
+     * @deprecated Replaced by {@link #find(String, String, String)} due to using Specification.
      */
     @Deprecated
     @GetMapping("/search")

@@ -19,3 +19,12 @@ spring:
         format_sql: true
 
     open-in-view: false
+
+
+  app:
+    security:
+      crypto:
+        argon2:
+          memory: 65536
+          parallelism: 1
+          iterations: 3
