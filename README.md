@@ -34,10 +34,11 @@ A robust Spring Boot application designed to master advanced JPA Entity Relation
 |--------|----------|-------------|
 | `GET` | `/api/address/search` | Search addresses using `street`, `houseNumber`, or `zipCode` query parameters |
 | `GET` | `/api/address/{id}` | Retrieve a specific address by ID |
+| `POST` | `/api/address` | Create a new address |
 | `PUT` | `/api/address/{id}` | Update an existing address |
 | `DELETE` | `/api/address/{id}` | Delete an address |
 
-> ⚠️ **Note**: The create method in `AddressController` is missing a `@PostMapping` annotation, so it is currently not exposed as an endpoint.
+
 
 ---
 
